@@ -2,7 +2,7 @@ package server.handlers;
 
 import com.google.gson.Gson;
 import server.game.GameState;
-import server.shared.Event;
+import server.model.Models.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,7 +17,6 @@ public class ClientConnection extends Thread{
     private final int playerType;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-    private volatile Event recentEvent;
     private final GameState gameState;
     ClientConnection(Socket socket, int playerType, GameState gameState, User user){
         isRunning = false;
@@ -65,8 +64,8 @@ public class ClientConnection extends Thread{
                     }
                 }
                 else {
-                    recentEvent = (makeEvent(str));
-                    gameState.changeMatrix(playerType, recentEvent.getClickedPosition());
+//                    recentEvent = (makeEvent(str));
+//                    gameState.changeMatrix(playerType, recentEvent.getClickedPosition());
                     try {
                         dataOutputStream.writeUTF(gameState.sendBack(playerType));
                     } catch (IOException e) {
@@ -81,11 +80,6 @@ public class ClientConnection extends Thread{
         dataOutputStream.writeUTF(str);
     }
 
-    private Event makeEvent(String string){
-        Gson gson = new Gson();
-        return gson.fromJson(string,Event.class);
-
-    }
 
     public int getPlayerType() {
         return playerType;

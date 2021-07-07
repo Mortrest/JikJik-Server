@@ -89,12 +89,16 @@ public class Users {
     }
 
     // Sign up user
-    public static void signUp(String username, String fName,String lName, String email, String password){
+    public static String signUp(String username, String fName,String lName, String email, String password){
         Random random = new Random();
-        User user = new User(Integer.toString(random.nextInt(10000)),fName,lName,username,password,"","",email,"",null);
-        users.add(user);
-        Chats.createSavedMsg(user.getUsername());
-        ml.save(users,"Users");
+        if (Users.searchUsername(username) == null) {
+            User user = new User(Integer.toString(random.nextInt(10000)), fName, lName, username, password, "", "", email, "", null);
+            users.add(user);
+            Chats.createSavedMsg(user.getUsername());
+            ml.save(users, "Users");
+            return "Success";
+        }
+        return "Nope";
     }
 
     // Following profiles
@@ -171,6 +175,13 @@ public class Users {
             }
         }
         ml.save(users,"Users");
+    }
+
+    public static String authMaker(User user){
+        Random random = new Random();
+        int rand = random.nextInt(100000);
+        user.setAuthToken(String.valueOf(rand));
+        return Integer.toString(rand);
     }
 
     public static void createCatg(User user, String name){

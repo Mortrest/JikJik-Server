@@ -1,10 +1,6 @@
 package server.game;
 
 import com.google.gson.Gson;
-import server.shared.MainResponse;
-import server.shared.Response;
-import server.shared.ShipsProp;
-import server.shared.WatchResponse;
 
 import java.util.Random;
 

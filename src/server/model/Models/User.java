@@ -7,6 +7,7 @@ public class User {
     private final String ID;
     protected String firstName;protected String lastName;
     private final String username;
+    protected String authToken;
     protected String password;
     protected String email;
     protected String phoneNumber;
@@ -57,9 +58,10 @@ public class User {
         this.birthdate = birthdate;
         this.isLastSeenAvailable = isLastSeenAvailable;
         this.profilePic = profilePic;
+        this.authToken = null;
     }
 
-
+    // Signing Up
     public User(String ID, String firstName, String lastName, String username, String password, String info, String phoneNumber,String email,String birthdate,String profilePic) {
         this.ID = ID;
         this.firstName = firstName;
@@ -81,6 +83,7 @@ public class User {
         isActive = true;
         lastSeen = LocalDateTime.now();
         this.isLastSeenAvailable = true;
+        this.authToken = null;
     }
     public String getUsername() {
         return username;
@@ -194,7 +197,13 @@ public class User {
         return followers;
     }
 
+    public String getAuthToken() {
+        return authToken;
+    }
 
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
 
     public LinkedList<String> getFollowing() {
         return following;
