@@ -2,7 +2,6 @@ package server.handlers;
 
 import com.google.gson.Gson;
 import server.game.GameState;
-import server.model.User;
 import server.shared.Event;
 
 import java.io.DataInputStream;

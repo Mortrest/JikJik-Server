@@ -1,7 +1,6 @@
 package server.game;
 
 import com.google.gson.Gson;
-import server.logic.Users;
 import server.shared.MainResponse;
 import server.shared.Response;
 import server.shared.ShipsProp;
