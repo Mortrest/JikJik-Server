@@ -40,7 +40,7 @@ public class Notifs {
             str = "Declined";
             makeNotif(owner.getUsername() + " Has " + str + "Your Request", owner2.getUsername(), "1");
         }
-
+        System.out.println("DONE");
         ml.save(Users.users,"Users");
     }
 

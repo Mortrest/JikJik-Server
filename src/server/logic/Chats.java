@@ -20,7 +20,7 @@ public class Chats {
 
     static String editID;
     public Chats(ModelLoader modelLoader) {
-        this.ml = modelLoader;
+        ml = modelLoader;
         rooms = modelLoader.loadRooms();
         chats = modelLoader.loadChats();
     }
