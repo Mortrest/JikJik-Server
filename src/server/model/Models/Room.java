@@ -7,7 +7,7 @@ public class Room {
     private final String date;
     private final String owner1;
     private final String owner2;
-    private final LinkedList<String> members;
+    private LinkedList<String> members;
     private final String type;
     private final String groupName;
     protected int unread1;
@@ -44,6 +44,10 @@ public class Room {
 
     public int getUnread1() {
         return unread1;
+    }
+
+    public void setMembers(LinkedList<String> members) {
+        this.members = members;
     }
 
     public LinkedList<String> getMembers() {

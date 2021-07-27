@@ -6,6 +6,7 @@ import server.logic.Users;
 import server.util.ModelLoader;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -16,5 +17,7 @@ public class Main {
         Users users = new Users(m,tweets,chats,notifs);
         Server server = new Server();
         server.start();
+//        LocalDateTime a = LocalDateTime.now();
+//        System.out.println(a);
     }
 }

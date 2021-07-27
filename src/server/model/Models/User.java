@@ -14,16 +14,6 @@ public class User {
     protected String birthdate;
     protected String info;
     protected LocalDateTime lastSeen;
-    public String getID() {
-        return ID;
-    }
-    @Override
-    public String toString() {
-        return "User{" +
-                "ID='" + ID + '\'' +
-                ", username='" + username + '\'' +
-                '}';
-    }
     protected LinkedList<String> followers;
     protected LinkedList<String> following;
     protected LinkedList<String> blackList;
@@ -144,6 +134,11 @@ public class User {
         return info;
     }
 
+    public String getID() {
+        return ID;
+    }
+
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -217,6 +212,12 @@ public class User {
         return blackList;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID='" + ID + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 
 }

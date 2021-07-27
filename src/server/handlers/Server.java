@@ -16,7 +16,6 @@ public class Server extends Thread {
                 signUpHandler.start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     public Server(){
