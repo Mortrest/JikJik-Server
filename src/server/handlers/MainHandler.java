@@ -7,12 +7,8 @@ import server.logic.Tweets;
 import server.logic.Users;
 import server.model.Models.*;
 import server.shared.*;
-
-
-import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -37,13 +33,26 @@ public class MainHandler extends Thread {
 
     @Override
     public void start() {
+        try {
+            String st = dataInputStream.readUTF();
+            if (!st.equals("NULL")){
+                user = gson.fromJson(st,User.class);
+                Users.setProfile(user);
+                Users.setCurrentUser(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         super.start();
     }
+
 
     public void run() {
         while (true) {
             try {
-                switch (dataInputStream.readUTF()) {
+                String a = dataInputStream.readUTF();
+                System.out.println(a);
+                switch (a) {
                     case EventsDirections.SIGN_IN -> signIn();
                     case EventsDirections.SIGN_UP -> signUp();
 //                    case EventsDirections.HOME -> home();
@@ -99,6 +108,10 @@ public class MainHandler extends Thread {
                     String id = Chats.getRoomID();
                     dataOutputStream.writeUTF(id);
                 }
+            }
+            case "ADD_GROUP" -> {
+                String gpName = dataInputStream.readUTF();
+                Chats.addToGroup(user.getUsername(),gpName);
             }
             case "MAKE_CHAT" -> {
                 MakeChatResponse mr = gson.fromJson(dataInputStream.readUTF(), MakeChatResponse.class);
@@ -187,17 +200,47 @@ public class MainHandler extends Thread {
             Users.save();
         } else if (str.equals("DEACTIVATE")) {
             Users.deactivate(user);
-        } else if (str.equals("DELETE")) {
+        }
+        else if (str.equals("CHANGE_PRIVATE")){
+            Users.changePrivate();
+        }
+        else if (str.equals("SAVE_SETTINGS")){
+            User us = gson.fromJson(dataInputStream.readUTF(),User.class);
+            Users.setting(us);
+        }
+        else if (str.equals("CHANGE_PASSWORD")){
+            System.out.println("lll");
+            String gf = dataInputStream.readUTF();
+            System.out.println(gf);
+            Users.changePassword(gf);
+        }
+        else if (str.equals("CHANGE_LASTSEEN")){
+            Users.changeLastSeen();
+        }
+        else if (str.equals("UPDATE_CATEGORIES")){
+            UpdateCategoriesResponse up = gson.fromJson(dataInputStream.readUTF(),UpdateCategoriesResponse.class);
+            Users.updateCategories(up.getFollowers(),up.getStr());
+        }
+        else if (str.equals("CREATE_CATEGORIES")){
+            UpdateCategoriesResponse up = gson.fromJson(dataInputStream.readUTF(),UpdateCategoriesResponse.class);
+            Users.createCatg(user,up.getFollowers());
+        }
+        else if (str.equals("DELETE")) {
             Users.deleteProfile(user);
         } else if (str.equals("FOLLOW")) {
             String s = dataInputStream.readUTF();
+            System.out.println(s);
             Users.followProfile(user, s);
         } else if (str.equals("USER_NULL")) {
             Users.setCurrentUser(null);
         } else if (str.equals("PROFILE_NULL")) {
             Users.setProfile(null);
         } else if (str.equals("SET_PROFILE")) {
-            User us = gson.fromJson(dataInputStream.readUTF(), User.class);
+            System.out.println("hello");
+            String f = dataInputStream.readUTF();
+            System.out.println(f);
+            User us = gson.fromJson(f, User.class);
+            System.out.println(us.getUsername());
             Users.setProfile(us);
         } else if (str.equals("BLOCK")) {
             String owner = dataInputStream.readUTF();
@@ -219,6 +262,7 @@ public class MainHandler extends Thread {
         } else if (str.equals("SHOW_TWEET")) {
             String type = dataInputStream.readUTF();
             if (type.equals("2")) {
+                System.out.println(Users.getProfile().getUsername());
                 GetTweetsResponse gs = new GetTweetsResponse(Users.getTweets().showTweetOwnPage(Users.class, Users.getProfile().getUsername(), 2));
                 dataOutputStream.writeUTF(gson.toJson(gs));
             } else {
@@ -251,7 +295,27 @@ public class MainHandler extends Thread {
             Tweets.makeTweet(mr.getText(), mr.getComment(), mr.getOwner(), mr.getFollowers());
         } else if (str.equals("SET_TWEET_ID")) {
             Tweets.setTweetID(dataInputStream.readUTF());
-        } else if (str.equals("SET_COMMENT_ID")) {
+        }
+        // If eligible for hyperlink for privacy of the user
+        else if (str.equals("ELIGIBLE")){
+            String ID = dataInputStream.readUTF();
+            if (Tweets.search(ID) == null){
+                dataOutputStream.writeUTF("NO");
+            } else {
+                Tweet tw = Tweets.search(ID);
+                assert tw != null;
+                if (Users.searchUsername(tw.getOwner()).isPrivate()){
+                    if (tw.getUsers().contains(user)){
+                        dataOutputStream.writeUTF("YES");
+                    } else {
+                        dataOutputStream.writeUTF("NO");
+                    }
+                } else {
+                    dataOutputStream.writeUTF("YES");
+                }
+            }
+        }
+        else if (str.equals("SET_COMMENT_ID")) {
             Tweets.setComment(dataInputStream.readUTF());
         } else if (str.equals("SET_FORWARD_ID")) {
             String ID = dataInputStream.readUTF();
@@ -316,7 +380,9 @@ public class MainHandler extends Thread {
                 }
             }
             case "CREATE_GROUP" -> {
+                System.out.println("helel");
                 String strs = dataInputStream.readUTF();
+                System.out.println(strs);
                 CreateGroupResponse cr = gson.fromJson(strs, CreateGroupResponse.class);
                 Chats.creatGroupRoom(cr.getMembers(), cr.getGroupName());
             }
@@ -419,6 +485,8 @@ public class MainHandler extends Thread {
             System.out.println("signed In");
             dataOutputStream.writeUTF(auth);
             dataOutputStream.writeUTF(gson.toJson(user));
+            Users.setProfile(user);
+            Users.setCurrentUser(user);
             // Auth Token
 //            if (user != null) {
 //                Users.addOnline(this);

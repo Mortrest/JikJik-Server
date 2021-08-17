@@ -67,8 +67,21 @@ public class Chats {
         String ID = Integer.toString(random.nextInt(100000));
         Room room = new Room(ID, Long.toString(date.getTime()), members, groupName);
         rooms.add(room);
-        System.out.println(rooms.getLast().getMembers() + " Sa");
         ml.save(rooms, "Rooms");
+    }
+
+    public static void addToGroup(String username, String groupName){
+        if (searchGroup(groupName) != null){
+            String ID = searchGroup(groupName);
+            Room r = searchRoomID(ID);
+            assert r != null;
+            LinkedList<String> mem = r.getMembers();
+            if (!mem.contains(username)){
+                mem.add(username);
+                r.setMembers(mem);
+                saveRooms();
+            }
+        }
     }
 
     public static void deleteChat(String ID) {
@@ -97,8 +110,8 @@ public class Chats {
         LinkedList<Room> userRooms = new LinkedList<>();
         ml.loadRooms();
         for (Room room : rooms) {
-            System.out.println(room);
-            System.out.println(room.getMembers() + "\n");
+//            System.out.println(room);
+//            System.out.println(room.getMembers() + "\n");
             if (room.getOwner1() != null) {
                 if (room.getOwner1().equals(username) || room.getOwner2().equals(username)) {
                     userRooms.add(room);
@@ -109,7 +122,7 @@ public class Chats {
                 }
             }
         }
-        System.out.println(userRooms + "user rooms");
+//        System.out.println(userRooms + "user rooms");
         return userRooms;
     }
 
@@ -161,7 +174,7 @@ public class Chats {
         for (Room room : rooms) {
             if (room.getType().equals("gp")) {
                 if (room.getGroupName().equals(groupName)) {
-                    System.out.println(room.getRoomID());
+//                    System.out.println(room.getRoomID());
                     return room.getRoomID();
                 }
             }

@@ -9,11 +9,11 @@ public class MakeTweetResponse {
     private final String comment;
     private final String owner;
     private final LinkedList<String> followers;
-    private final Image imageUrl;
+    private final String imageUrl;
     private final boolean isImage;
 
 
-    public MakeTweetResponse(String text, String comment, String owner, LinkedList<String> followers, Image imageUrl, boolean isImage) {
+    public MakeTweetResponse(String text, String comment, String owner, LinkedList<String> followers, String imageUrl, boolean isImage) {
         this.text = text;
         this.comment = comment;
         this.owner = owner;
@@ -38,7 +38,7 @@ public class MakeTweetResponse {
         return followers;
     }
 
-    public Image getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 

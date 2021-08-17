@@ -4,6 +4,7 @@ import server.model.Models.User;
 import server.util.ModelLoader;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Users {
@@ -35,6 +36,18 @@ public class Users {
 
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+    public static void changePassword(String str){
+        currentUser.setPassword(str);
+        System.out.println("Password be" + str);
+        System.out.println(currentUser.getPassword());
+        ml.save(users,"Users");
+    }
+
+    public static void changeLastSeen(){
+        currentUser.setLastSeenAvailable(!currentUser.isLastSeenAvailable());
+        save();
     }
 
     public static void setCurrentUser(User currentUser) {
@@ -108,7 +121,7 @@ public class Users {
         if (!targetUser.isPrivate()) {
             if (!user.getFollowing().contains(target)) {
                 user.getFollowing().add(target);
-                searchUsername(target).getFollowers().add(user.getUsername());
+                Objects.requireNonNull(searchUsername(target)).getFollowers().add(user.getUsername());
                 tweets.follow(user.getUsername(), target);
                 Notifs.makeNotif((user.getUsername() + " Started following you!"), target, "1");
                 ml.save(users, "Users");
@@ -166,6 +179,16 @@ public class Users {
         return false;
     }
 
+    public static void setting(User us) {
+        currentUser.setInfo(us.getInfo());
+        currentUser.setPhoneNumber(us.getInfo());
+        currentUser.setEmail(us.getEmail());
+        currentUser.setFirstName(us.getFirstName());
+        currentUser.setLastName(us.getLastName());
+        currentUser.setProfilePic(us.getProfilePic());
+        save();
+    }
+
     public void saveCatg(User user,LinkedList<String> catg){
         for (LinkedList<String> cat : user.getCategories()){
             if (cat.get(0).equals(catg.get(0))){
@@ -189,6 +212,11 @@ public class Users {
         n.add(name);
         user.getCategories().add(n);
         ml.log("Users-"+"Category " + name + " Created");
+        ml.save(users,"Users");
+    }
+
+    public static void changePrivate(){
+        currentUser.setPrivate(!currentUser.isPrivate());
         ml.save(users,"Users");
     }
 

@@ -1,10 +1,17 @@
-{"text":"How\u0027s today","ID":"48787","parent":"0","date":"1616602437718","owner":"morty","reported":2,"users":["jojo","jojo","sadat","erfan"],"likes":["erfan","morty"],"isRet":false}
-{"text":"Heeeey world","ID":"21731","parent":"0","date":"1616659033454","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":[],"isRet":false}
-{"text":"Dickam dahane iman","ID":"217312","parent":"0","date":"1616659033454","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":["morty"],"isRet":false}
-{"text":"Khob ke chi?","ID":"71946","parent":"21731","date":"1616827205471","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":[],"isRet":false}
-{"text":"heh?","ID":"719462","parent":"71946","date":"1616827205471","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":[],"isRet":false}
-{"text":"Khosh behalet","ID":"65910","parent":"21731","date":"1616827218101","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":[],"isRet":false}
-{"text":"Hichi dawsh rahat bash","ID":"39368","parent":"71946","date":"1616827228491","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan"],"likes":[],"isRet":false}
-{"text":"Heeeey world","ID":"9","parent":"0","date":"1619495907454","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan"],"likes":[],"isRet":true}
-{"text":"Dickam dahane iman","ID":"10","parent":"0","date":"1619496086479","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan"],"likes":[],"isRet":true}
-{"text":"Dickam dahane شسیشسشیسش","ID":"110","parent":"10","date":"1619496086479","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan"],"likes":[],"isRet":true}
+{"text":"How\u0027s today","ID":"48787","parent":"0","date":"1616602437718","owner":"morty","reported":2,"users":["jojo","jojo","sadat","erfan","iman"],"likes":["erfan","morty"],"isRet":false}
+{"text":"Heeeey world","ID":"21731","parent":"0","date":"1616659033454","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":[],"isRet":false}
+{"text":"Dickam dahane iman","ID":"217312","parent":"0","date":"1616659033454","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":["morty"],"isRet":false}
+{"text":"Khob ke chi?","ID":"71946","parent":"21731","date":"1616827205471","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":[],"isRet":false}
+{"text":"heh?","ID":"719462","parent":"71946","date":"1616827205471","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":[],"isRet":false}
+{"text":"Khosh behalet","ID":"65910","parent":"21731","date":"1616827218101","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":[],"isRet":false}
+{"text":"Hichi dawsh rahat bash","ID":"39368","parent":"71946","date":"1616827228491","owner":"morty","reported":0,"users":["jojo","jojo","sadat","erfan","iman"],"likes":[],"isRet":false}
+{"text":"Heeeey world","ID":"9","parent":"0","date":"1619495907454","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan","iman"],"likes":[],"isRet":true}
+{"text":"Dickam dahane iman","ID":"10","parent":"0","date":"1619496086479","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan","iman"],"likes":[],"isRet":true}
+{"text":"Dickam dahane شسیشسشیسش","ID":"110","parent":"10","date":"1619496086479","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sadat","erfan","iman"],"likes":[],"isRet":true}
+{"text":"How\u0027s today","ID":"11","parent":"0","date":"1629094222600","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sojo","lojo","mojo","rojo","erfan","iman"],"likes":["morty"],"isRet":true}
+{"text":"","ID":"30920","parent":"0","date":"1629123041347","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sojo","lojo","mojo","rojo","erfan","iman"],"likes":[],"isRet":false}
+{"text":"سولام دا","ID":"17036","parent":"0","date":"1629123121154","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sojo","lojo","mojo","rojo","erfan","iman"],"likes":[],"isRet":false}
+{"text":"سوووولام","ID":"16898","parent":"17036","date":"1629123133440","owner":"morty","reported":0,"users":["jojo","Mojo","gojo","sojo","lojo","mojo","rojo","erfan","iman"],"likes":[],"isRet":false}
+{"text":"سوووووووولام","ID":"21535","parent":"0","date":"1629125199752","owner":"erfan","reported":0,"users":[],"likes":[],"isRet":false}
+{"text":"Salam man imanam","ID":"31608","parent":"0","date":"1629125386792","owner":"iman","reported":0,"users":[],"likes":[],"isRet":false}
+{"text":"Az boshroye","ID":"90558","parent":"0","date":"1629125391276","owner":"iman","reported":0,"users":[],"likes":[],"isRet":false}

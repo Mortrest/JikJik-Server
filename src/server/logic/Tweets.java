@@ -6,6 +6,7 @@ import server.util.ModelLoader;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -58,6 +59,7 @@ public class Tweets {
 
     public static void reportUser(User user, String tweetID){
         Tweet tweet = Tweets.search(tweetID);
+        assert tweet != null;
         int rep = tweet.getReported();
         tweet.setReported(rep+1);
         ml.save(tweets,"Tweets");
@@ -111,10 +113,10 @@ public class Tweets {
         LinkedList<Tweet> tw = new LinkedList<>();
         if (type == 3) {
             for (Tweet t : tweets) {
-                if (Users.searchUsername(t.getOwner()).isActive()) {
-                    if (!Users.searchUsername(username).getMuted().contains(t.getOwner()) && t.getParent().equals("0")) {
-                        if (Users.searchUsername(t.getOwner()).isPrivate()) {
-                            if (Users.searchUsername(username).getFollowing().contains(t.getOwner())) {
+                if (Objects.requireNonNull(Users.searchUsername(t.getOwner())).isActive()) {
+                    if (!Objects.requireNonNull(Users.searchUsername(username)).getMuted().contains(t.getOwner()) && t.getParent().equals("0")) {
+                        if (Objects.requireNonNull(Users.searchUsername(t.getOwner())).isPrivate()) {
+                            if (Objects.requireNonNull(Users.searchUsername(username)).getFollowing().contains(t.getOwner())) {
                                 tw.add(t);
                             }
                         } else {
@@ -128,31 +130,52 @@ public class Tweets {
         else {
             User user = Users.searchUsername(username);
             for (Tweet t : tweets) {
-                User target = Users.searchUsername(t.getOwner());
-                assert target != null;
-                if (target.isActive() && t.getParent().equals("0") && !user.getMuted().contains(target.getUsername())) {
-                    if (t.getOwner().equals(username)) {
-                        tw.add(t);
-                    }
-                    if (type == 2) {
-                        if (t.getUsers() != null) {
-                            for (String str : t.getUsers()) {
-                                if (str.equals(username) && t.getParent().equals("0")) {
-                                    if (!tw.contains(t)) {
-                                        tw.add(t);
-                                    }
+                if (type == 2) {
+                    User target = Users.searchUsername(t.getOwner());
+                    if (target.isActive() && t.getParent().equals("0") && !user.getMuted().contains(target.getUsername())) {
+                        if (t.getOwner().equals(username)) {
+                            tw.add(t);
+                        }
+                        for (String str : t.getUsers()){
+                            if (str.equals(username)){
+                                if (!tw.contains(t)) {
+                                    tw.add(t);
                                 }
                             }
                         }
                     }
                 }
-                if (type == 1 || type == 2) {
-                    tw = sortByDate(tw);
+                if (type == 1) {
+                    assert user != null;
+                    if (t.getOwner().equals(user.getUsername())) {
+                        tw.add(t);
+                    }
                 }
             }
         }
+//                User target = Users.searchUsername(t.getOwner());
+//                assert target != null;
+//                if (target.isActive() && t.getParent().equals("0") && !user.getMuted().contains(target.getUsername())) {
+//                    if (t.getOwner().equals(username)) {
+//                        tw.add(t);
+//                    }
+//                    if (type == 2) {
+//                        if (t.getUsers() != null) {
+//                            for (String str : t.getUsers()) {
+//                                if (str.equals(username) || t.getParent().equals("0")) {
+//                                    if (!tw.contains(t)) {
+//                                        tw.add(t);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                if (type == 1 || type == 2) {
+//                    tw = sortByDate(tw);
+//                }
+        System.out.println(tw);
         return tw;
-
     }
 
     // Liking Tweets

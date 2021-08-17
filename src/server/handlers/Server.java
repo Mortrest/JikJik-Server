@@ -12,8 +12,8 @@ public class Server extends Thread {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
                 Socket socket = serverSocket.accept();
-                MainHandler signUpHandler = new MainHandler(socket);
-                signUpHandler.start();
+                MainHandler mh = new MainHandler(socket);
+                mh.start();
             }
         } catch (IOException e) {
         }
