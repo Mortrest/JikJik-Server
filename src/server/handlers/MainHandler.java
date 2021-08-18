@@ -45,8 +45,6 @@ public class MainHandler extends Thread {
         }
         super.start();
     }
-
-
     public void run() {
         while (true) {
             try {
@@ -55,24 +53,35 @@ public class MainHandler extends Thread {
                 switch (a) {
                     case EventsDirections.SIGN_IN -> signIn();
                     case EventsDirections.SIGN_UP -> signUp();
-//                    case EventsDirections.HOME -> home();
                     case "GET_USER" -> specifiedUser();
                     case "GET_CHAT" -> specifiedChat();
                     case "GET_ROOM" -> specifiedRoom();
-                    case EventsDirections.EXPLORE -> explore();
                     case EventsDirections.NOTIF -> notif();
                     case EventsDirections.MSG -> messages();
-                    case EventsDirections.PROFILE -> profile();
                     case "CHATS" -> chats();
                     case "TWEETS" -> tweets();
                     case "TIME" -> time();
                     case "USERS" -> users();
                     case "DO_NOTIF" -> doNotif();
+                    case "ONLINE" -> online();
+                    case "TW" -> tw();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void online() throws IOException {
+        dataOutputStream.writeUTF(gson.toJson(Users.getOnlines()));
+    }
+
+    private void tw() throws IOException {
+        LinkedList<Tweet> profileTweet = Users.getTweets().showTweetOwnPage(Users.class, user.getUsername(),2);
+        LinkedList<Tweet> exploreTweet = Users.getTweets().showTweetOwnPage(Users.class, user.getUsername(),3);
+        LinkedList<Tweet> homeTweet = Users.getTweets().showTweetOwnPage(Users.class, user.getUsername(),1);
+        ShowTweetResponse sr = new ShowTweetResponse(homeTweet,exploreTweet,profileTweet);
+        dataOutputStream.writeUTF(gson.toJson(sr));
     }
 
     private void time() throws IOException {
@@ -200,6 +209,9 @@ public class MainHandler extends Thread {
             Users.save();
         } else if (str.equals("DEACTIVATE")) {
             Users.deactivate(user);
+        }
+        else if (str.equals("LOG_OUT")){
+            Users.logOut(user.getUsername());
         }
         else if (str.equals("CHANGE_PRIVATE")){
             Users.changePrivate();
@@ -354,18 +366,11 @@ public class MainHandler extends Thread {
     }
 
 
-    private void profile() {
-
-    }
-
-
     private void notif() throws IOException {
         LinkedList<Notif> notifs = Users.getNotifs().showNotif(user.getUsername());
         NotifResponse notifResponse = new NotifResponse(notifs);
         dataOutputStream.writeUTF(gson.toJson(notifResponse));
-
     }
-
 
     private void messages() throws IOException {
         String str = dataInputStream.readUTF();
@@ -380,9 +385,7 @@ public class MainHandler extends Thread {
                 }
             }
             case "CREATE_GROUP" -> {
-                System.out.println("helel");
                 String strs = dataInputStream.readUTF();
-                System.out.println(strs);
                 CreateGroupResponse cr = gson.fromJson(strs, CreateGroupResponse.class);
                 Chats.creatGroupRoom(cr.getMembers(), cr.getGroupName());
             }
@@ -400,70 +403,6 @@ public class MainHandler extends Thread {
 
         }
     }
-
-
-    private void explore() {
-    }
-
-//    private void home() throws IOException {
-//
-//        while (isRunning) {
-//            String str = null;
-//            try {
-//                str = (dataInputStream.readUTF());
-//            } catch (IOException ignored) {
-//            }
-//            if (str != null) {
-//                if (str.charAt(0) == (mainEvent)) {
-//                    try {
-//
-//                        dataOutputStream.writeUTF(gameState.timeBack());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else if (str.equals(reqEvent)) {
-//                    gameState.changeBoard(playerType);
-//                    try {
-//                        dataOutputStream.writeUTF(gameState.sendBack(playerType));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    recentEvent = (makeEvent(str));
-//                    gameState.changeMatrix(playerType, recentEvent.getClickedPosition());
-//                    try {
-//                        dataOutputStream.writeUTF(gameState.sendBack(playerType));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//        Thread thread = new Thread(() -> {
-//            while (true) {
-//                String str = null;
-//                try {
-//                    str = (dataInputStream.readUTF());
-//                } catch (IOException ignored) {
-//                }
-//                if (str != null) {
-//                    if (str.equals("DATA")) {
-//
-//                        dataOutputStream.writeUTF();
-//                    }
-//                }
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        thread.start();
-//
-//    }
 
     private void signUp() throws IOException {
         SignUpResponse res = gson.fromJson(dataInputStream.readUTF(), SignUpResponse.class);
@@ -487,6 +426,7 @@ public class MainHandler extends Thread {
             dataOutputStream.writeUTF(gson.toJson(user));
             Users.setProfile(user);
             Users.setCurrentUser(user);
+            Users.addToOnline(user.getUsername());
             // Auth Token
 //            if (user != null) {
 //                Users.addOnline(this);

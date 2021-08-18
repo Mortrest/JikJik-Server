@@ -16,7 +16,7 @@ public class Users {
     static User Profile;
     static User currentUser;
     static ModelLoader ml;
-
+    static LinkedList<String> onlines;
     // Constructor
     public Users(ModelLoader modelLoader, Tweets tweets, Chats chats, Notifs notifs){
         users = modelLoader.loadUsers();
@@ -24,6 +24,7 @@ public class Users {
         Users.tweets = tweets;
         Users.chats = chats;
         Users.notifs = notifs;
+        onlines = new LinkedList<>();
     }
 
     public static User getProfile() {
@@ -73,6 +74,10 @@ public class Users {
 
     public static Notifs getNotifs() {
         return notifs;
+    }
+
+    public static void addToOnline(String username){
+        onlines.add(username);
     }
 
     public static void save(){
@@ -246,15 +251,19 @@ public class Users {
         Chats.rooms.removeIf(room -> room.getOwner2().equals(user.getUsername()) || room.getOwner1().equals(user.getUsername()));
         ml.save(Chats.chats,"Chats");
         Notifs.notifs.removeIf(notif -> notif.getOwner().equals(user.getUsername()));
+        onlines.remove(user.getUsername());
         ml.save(Notifs.notifs,"Notifs");
         ml.log("Users-"+user.getUsername() + " Profile deleted");
     }
 
-
+    public static void logOut(String username){
+        onlines.remove(username);
+    }
 
 
 
     public static void deactivate(User user){
+        onlines.remove(user.getUsername());
         user.setActive(false);
         ml.save(users,"Users");
     }
@@ -263,5 +272,7 @@ public class Users {
         Tweets.makeTweet(textf,"0",userf.getUsername(),userf.getFollowers());
     }
 
-
+    public static LinkedList<String> getOnlines() {
+        return onlines;
+    }
 }

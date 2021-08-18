@@ -16,6 +16,7 @@ public class Server extends Thread {
                 mh.start();
             }
         } catch (IOException e) {
+            System.out.println("Client disconnected!");
         }
     }
     public Server(){
